@@ -1,0 +1,10 @@
+.env
+.venv/
+snapshots/
+data/smoker.db*
+data/dataset/
+runs/
+runs_skripsi/
+outputs/
+__pycache__/
+*.pt

@@ -1,0 +1,14 @@
+# Konfigurasi dataset untuk training YOLOv8
+# Sesuaikan path di bawah jika struktur folder Anda berbeda
+# (path bisa absolut atau relatif terhadap file ini)
+
+path: data/dataset        # folder induk dataset
+train: images/train       # folder gambar training
+val: images/valid           # folder gambar validasi
+test: images/test         # folder gambar testing (opsional)
+
+# Jumlah kelas & nama kelas (urutan index harus sama persis dengan saat labeling di Roboflow)
+nc: 2
+names:
+  0: cigarette
+  1: smoke

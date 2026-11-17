@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Beranda{% endblock %}
+{% block heading %}Beranda{% endblock %}
+{% block content %}
+<div class="row row-deck row-cards mb-3">
+  <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body">
+    <div class="subheader">Total kejadian</div><div class="h1 mb-0">{{ total }}</div>
+  </div></div></div>
+  <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body">
+    <div class="subheader">Hari ini</div><div class="h1 mb-0">{{ n_hari_ini }}</div>
+  </div></div></div>
+  <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body">
+    <div class="subheader">7 hari terakhir</div><div class="h1 mb-0">{{ n_minggu }}</div>
+  </div></div></div>
+  <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body">
+    <div class="subheader">Kejadian terakhir</div>
+    <div class="h3 mb-0">{{ terakhir[0]['waktu'] if terakhir else 'Belum ada' }}</div>
+  </div></div></div>
+</div>
+
+<div class="card">
+  <div class="card-header"><h3 class="card-title">Kejadian terbaru</h3></div>
+  <div class="table-responsive">
+    <table class="table card-table table-vcenter">
+      <thead><tr><th>Snapshot</th><th>Waktu</th><th>Kelas</th><th>Confidence</th></tr></thead>
+      <tbody>
+      {% for r in terbaru %}
+        <tr>
+          <td>{% if r['path_snapshot'] %}<a href="{{ r['path_snapshot']|snap_url }}" target="_blank"><img src="{{ r['path_snapshot']|snap_url }}" class="rounded" style="height:48px" alt=""></a>{% endif %}</td>
+          <td>{{ r['waktu'] }}</td>
+          <td><span class="badge">{{ r['kelas'] }}</span></td>
+          <td>{{ '%.2f'|format(r['confidence']) }}</td>
+        </tr>
+      {% else %}
+        <tr><td colspan="4" class="text-secondary text-center py-4">Belum ada kejadian tercatat.</td></tr>
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="card-footer"><a href="{{ url_for('riwayat') }}">Lihat semua riwayat</a></div>
+</div>
+{% endblock %}
