@@ -1,7 +1,7 @@
 import sys
 from ultralytics import YOLO
 
-MODEL_PATH = "models/best.pt"
+MODEL_PATH = "models/best_cctv_v2_s1280.pt"
 DATA_YAML = "data.yaml"
 IMGSZ = None
 

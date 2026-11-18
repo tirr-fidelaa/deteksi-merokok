@@ -1,0 +1,446 @@
+/* ===== Warna (ganti di sini kalau mau ubah tema) ===== */
+:root {
+  --warna-utama: #f97316;
+  --warna-utama-tua: #ea580c;
+  --warna-utama-muda: #fdba74;
+  --latar: #fff7ed;
+  --kartu: #fffdf9;
+  --garis: #f3e3d3;
+  --teks: #1f1a17;
+  --teks-redup: #78695d;
+  --radius: 20px;
+
+  /* menimpa warna bawaan Tabler */
+  --tblr-primary: #f97316;
+  --tblr-primary-rgb: 249, 115, 22;
+  --tblr-body-bg: #fff7ed;
+  --tblr-body-color: #1f1a17;
+  --tblr-secondary-color: #78695d;
+  --tblr-border-color: #f3e3d3;
+  --tblr-bg-surface-tertiary: #fff1e3;
+}
+
+/* ===== Dasar ===== */
+body {
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  background: linear-gradient(
+      180deg,
+      #ffefdd 0%,
+      var(--latar) 45%,
+      #fff3e6 100%
+    )
+    fixed;
+  color: var(--teks);
+}
+.container-xl {
+  max-width: 100% !important;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+.page-body {
+  margin-top: 8px;
+}
+.text-secondary,
+.form-hint {
+  color: var(--teks-redup) !important;
+}
+
+/* ===== Navbar pill ===== */
+.topbar {
+  padding: 18px 0 6px;
+}
+.topbar-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+.brand {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-right: auto;
+}
+.pill-nav {
+  display: flex;
+  gap: 6px;
+}
+.pill {
+  padding: 10px 22px;
+  border-radius: 999px;
+  color: var(--teks-redup);
+  font-weight: 500;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.pill:hover {
+  background: rgba(249, 115, 22, 0.1);
+  color: var(--teks);
+}
+.pill.active {
+  background: linear-gradient(
+    135deg,
+    var(--warna-utama-muda),
+    var(--warna-utama)
+  );
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.3);
+}
+.btn-keluar {
+  border-radius: 999px;
+  border: 1px solid var(--garis);
+  background: var(--kartu);
+  padding: 8px 18px;
+}
+
+/* ===== Judul halaman ===== */
+.page-header {
+  background: transparent;
+  border: 0;
+}
+.page-title {
+  font-size: 1.9rem;
+  font-weight: 600;
+}
+
+/* ===== Kartu ===== */
+.card {
+  border: 1px solid var(--garis);
+  border-radius: var(--radius);
+  background: var(--kartu);
+  box-shadow: 0 6px 24px rgba(249, 115, 22, 0.07);
+}
+.card-header,
+.card-footer {
+  border-color: var(--garis);
+  background: transparent;
+}
+
+/* ===== Tombol ===== */
+.btn {
+  border-radius: 999px;
+}
+.btn-primary {
+  --tblr-btn-bg: var(--warna-utama);
+  --tblr-btn-border-color: var(--warna-utama);
+  --tblr-btn-hover-bg: var(--warna-utama-tua);
+  --tblr-btn-hover-border-color: var(--warna-utama-tua);
+  --tblr-btn-active-bg: var(--warna-utama-tua);
+  --tblr-btn-color: #fff;
+  --tblr-btn-hover-color: #fff;
+}
+
+/* ===== Form ===== */
+.form-label {
+  font-weight: 600;
+}
+.form-control,
+.form-select {
+  border: 1px solid var(--garis);
+  border-radius: 12px;
+  background-color: #fff;
+}
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--warna-utama);
+  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.15);
+}
+.alert {
+  border-radius: 14px;
+}
+
+/* ===== Tabel ===== */
+.card-table thead th {
+  background: #fff4e8;
+  color: var(--teks-redup);
+  border-bottom: 1px solid var(--garis);
+}
+.card-table tbody td {
+  border-color: var(--garis);
+}
+.thumb {
+  height: 56px;
+  border-radius: 10px;
+}
+
+/* ===== Pagination ===== */
+.page-link {
+  border: 0;
+  border-radius: 999px;
+  color: var(--teks);
+  margin: 0 2px;
+}
+.page-item.disabled .page-link {
+  color: var(--teks-redup);
+  background: transparent;
+}
+
+/* ===== Badge kelas ===== */
+.badge-kelas {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #ffedd5;
+  color: #c2410c;
+}
+.badge-smoke {
+  background: #e7e5e4;
+  color: #44403c;
+}
+
+/* ===== Beranda: hero ===== */
+.hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 340px;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+.hero img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  -webkit-mask-image: linear-gradient(180deg, #000 50%, transparent 100%);
+  mask-image: linear-gradient(180deg, #000 50%, transparent 100%);
+}
+.hero-chip {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  z-index: 2;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(255, 253, 249, 0.88);
+  backdrop-filter: blur(6px);
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+.hero-chip span {
+  color: var(--teks-redup);
+  font-weight: 500;
+}
+.hero-empty {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--teks-redup);
+  border: 1px dashed var(--garis);
+  border-radius: var(--radius);
+}
+
+/* ===== Beranda: kartu angka ===== */
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  height: 100%;
+}
+.stat {
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.stat-icon {
+  width: 44px;
+  height: 44px;
+  margin-bottom: 14px;
+  border-radius: 14px;
+  background: #ffedd5;
+  color: var(--warna-utama-tua);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.stat-label {
+  color: var(--teks-redup);
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+.stat-value {
+  font-size: 2.4rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.stat-value-sm {
+  font-size: 1.05rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+.stat-accent {
+  background: linear-gradient(
+    135deg,
+    var(--warna-utama-muda),
+    var(--warna-utama)
+  );
+  border: 0;
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(249, 115, 22, 0.3);
+}
+.stat-accent .stat-label {
+  color: rgba(255, 255, 255, 0.92);
+}
+.stat-accent .stat-icon {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+/* ===== Daftar kejadian ===== */
+.event-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 22px;
+  border-bottom: 1px solid var(--garis);
+}
+.event-item:last-child {
+  border-bottom: 0;
+}
+.event-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: #ffedd5;
+  color: var(--warna-utama-tua);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.event-info {
+  flex: 1;
+  min-width: 0;
+}
+.event-title {
+  font-weight: 600;
+}
+.event-sub {
+  font-size: 0.85rem;
+  color: var(--teks-redup);
+}
+.event-thumb {
+  height: 48px;
+  border-radius: 10px;
+}
+.empty {
+  padding: 32px;
+  text-align: center;
+  color: var(--teks-redup);
+}
+
+/* ===== Chart ===== */
+.chart-260 {
+  position: relative;
+  height: 260px;
+}
+.chart-240 {
+  position: relative;
+  height: 240px;
+}
+
+/* ===== Pengaturan ===== */
+.setting {
+  padding: 22px 0;
+  border-bottom: 1px solid var(--garis);
+}
+.setting:first-child {
+  padding-top: 0;
+}
+.setting:last-of-type {
+  border-bottom: 0;
+}
+.setting-title {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.setting-desc {
+  color: var(--teks-redup);
+  font-size: 0.85rem;
+  margin-bottom: 12px;
+}
+.setting-status {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #ffedd5;
+  color: #c2410c;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+.slider-row input[type="range"] {
+  flex: 1;
+  accent-color: var(--warna-utama);
+}
+.slider-row input[type="number"] {
+  width: 110px;
+}
+.tip {
+  padding: 24px;
+  background: #fff4e8;
+}
+.tip-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.tip p {
+  color: var(--teks-redup);
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+.tip p:last-child {
+  margin-bottom: 0;
+}
+
+/* ===== Login ===== */
+.login-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  padding: 36px;
+}
+.login-logo {
+  width: 56px;
+  height: 56px;
+  margin: 0 auto 16px;
+  border-radius: 18px;
+  background: linear-gradient(
+    135deg,
+    var(--warna-utama-muda),
+    var(--warna-utama)
+  );
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.35);
+}
+.login-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.login-sub {
+  text-align: center;
+  color: var(--teks-redup);
+  margin-bottom: 24px;
+}

@@ -132,14 +132,18 @@ def logout():
 def beranda():
     now = datetime.now()
     hari_ini = now.strftime("%Y-%m-%d")
-    seminggu = (now - timedelta(days=6)).strftime("%Y-%m-%d")
+    hari = [(now - timedelta(days=i)).strftime("%Y-%m-%d") for i in range(6, -1, -1)]
+    cnt = {r["d"]: r["n"] for r in rows(
+        "SELECT date(waktu) d, COUNT(*) n FROM kejadian WHERE date(waktu)>=? GROUP BY d", (hari[0],))}
     return render_template(
         "beranda.html",
         total=one("SELECT COUNT(*) FROM kejadian"),
         n_hari_ini=one("SELECT COUNT(*) FROM kejadian WHERE date(waktu)=?", (hari_ini,)),
-        n_minggu=one("SELECT COUNT(*) FROM kejadian WHERE date(waktu)>=?", (seminggu,)),
+        n_minggu=one("SELECT COUNT(*) FROM kejadian WHERE date(waktu)>=?", (hari[0],)),
         terakhir=rows("SELECT waktu FROM kejadian ORDER BY id DESC LIMIT 1"),
         terbaru=rows("SELECT * FROM kejadian ORDER BY id DESC LIMIT 8"),
+        label_hari=[d[8:] + "/" + d[5:7] for d in hari],
+        harian=[cnt.get(d, 0) for d in hari],
     )
 
 

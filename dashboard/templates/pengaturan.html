@@ -1,32 +1,98 @@
-{% extends "base.html" %}
-{% block title %}Pengaturan{% endblock %}
-{% block heading %}Pengaturan{% endblock %}
-{% block content %}
-<div class="card" style="max-width:640px">
-  <div class="card-body">
-    <form method="post" autocomplete="off">
-      <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+{% extends "base.html" %} {% block title %}Pengaturan{% endblock %} {% block
+heading %}Pengaturan{% endblock %} {% block content %}
+<div class="row row-cards">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-body">
+        <form method="post" autocomplete="off">
+          <input type="hidden" name="_csrf" value="{{ csrf_token() }}" />
 
-      <div class="mb-3">
-        <label class="form-label">URL RTSP kamera</label>
-        <input type="password" name="rtsp_url" class="form-control" placeholder="Kosongkan untuk tidak mengubah">
-        <div class="form-hint">Tersimpan sekarang: {{ rtsp_masked or 'belum ada' }}</div>
+          <div class="setting">
+            <div class="setting-title">URL RTSP kamera</div>
+            <div class="setting-desc">
+              Alamat stream CCTV. Kosongkan kalau tidak ingin mengubah.
+            </div>
+            <input
+              type="password"
+              name="rtsp_url"
+              class="form-control"
+              placeholder="rtsp://..."
+            />
+            <span class="setting-status"
+              >Tersimpan: {{ rtsp_masked or 'belum ada' }}</span
+            >
+          </div>
+
+          <div class="setting">
+            <div class="setting-title">Telegram Chat ID</div>
+            <div class="setting-desc">
+              ID grup tujuan notifikasi. Token bot tetap diatur di file .env.
+            </div>
+            <input
+              type="text"
+              name="telegram_chat_id"
+              class="form-control"
+              value="{{ chat_id }}"
+            />
+          </div>
+
+          <div class="setting">
+            <div class="setting-title">Confidence threshold</div>
+            <div class="setting-desc">
+              Makin tinggi, makin sedikit false positive tapi makin banyak yang
+              terlewat.
+            </div>
+            <div class="slider-row">
+              <input
+                type="range"
+                id="slider"
+                min="0.05"
+                max="0.95"
+                step="0.01"
+                value="{{ conf }}"
+              />
+              <input
+                type="number"
+                id="angka"
+                name="conf_threshold"
+                step="0.01"
+                min="0.05"
+                max="0.95"
+                class="form-control"
+                value="{{ conf }}"
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            Simpan pengaturan
+          </button>
+        </form>
       </div>
+    </div>
+  </div>
 
-      <div class="mb-3">
-        <label class="form-label">Telegram Chat ID</label>
-        <input type="text" name="telegram_chat_id" class="form-control" value="{{ chat_id }}">
-        <div class="form-hint">Token bot tidak diatur di sini, tetap di file .env.</div>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">Confidence threshold</label>
-        <input type="number" step="0.01" min="0.05" max="0.95" name="conf_threshold" class="form-control" value="{{ conf }}">
-        <div class="form-hint">Antara 0,05 dan 0,95. Makin tinggi, makin sedikit false positive tapi makin banyak yang terlewat.</div>
-      </div>
-
-      <button type="submit" class="btn btn-primary">Simpan</button>
-    </form>
+  <div class="col-lg-4">
+    <div class="card tip">
+      <div class="tip-title">Catatan</div>
+      <p>Perubahan baru berlaku setelah script deteksi dijalankan ulang.</p>
+      <p>
+        Kalau script dijalankan dengan <code>--conf</code> atau
+        <code>--url</code> manual, nilai itu yang dipakai, bukan nilai dari
+        halaman ini.
+      </p>
+    </div>
   </div>
 </div>
+{% endblock %} {% block scripts %}
+<script>
+  const slider = document.getElementById("slider");
+  const angka = document.getElementById("angka");
+  slider.addEventListener("input", () => {
+    angka.value = slider.value;
+  });
+  angka.addEventListener("input", () => {
+    slider.value = angka.value;
+  });
+</script>
 {% endblock %}

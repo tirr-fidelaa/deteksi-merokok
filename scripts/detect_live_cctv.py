@@ -114,6 +114,11 @@ def on_event(cls_name, conf, snapshot_path, ts, notify=True):
 
 
 def run_live(args):
+    db.init_db()
+    if args.conf is None:
+        args.conf = float(db.get_setting("conf_threshold", "0.25"))
+    if not args.url:
+        args.url = db.get_setting("rtsp_url", "") or os.environ.get("RTSP_URL", "")
     if not args.url:
         raise SystemExit("Sumber kosong. Isi RTSP_URL di .env atau pakai --url.")
     if not os.path.isfile(args.model):
@@ -219,9 +224,9 @@ def run_live(args):
 
 def main():
     p = argparse.ArgumentParser(description="Deteksi merokok live (RTSP atau file video)")
-    p.add_argument("--url", default=os.environ.get("RTSP_URL", ""), help="URL RTSP atau path file video (default: RTSP_URL di .env)")
+    p.add_argument("--url", default=None, help="...")
     p.add_argument("--model", default="models/best_cctv_v2_s1280.pt", help="Path model .pt")
-    p.add_argument("--conf", type=float, default=0.25, help="Ambang confidence")
+    p.add_argument("--conf", type=float, default=None, help="...")
     p.add_argument("--imgsz", type=int, default=1280, help="Ukuran input (samakan dengan training)")
     p.add_argument("--min-hits", type=int, default=3, help="Minimal deteksi dalam window")
     p.add_argument("--window", type=int, default=10, help="Panjang window frame terakhir")

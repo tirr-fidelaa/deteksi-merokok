@@ -1,11 +1,15 @@
 import os
 import time
 import cv2
+from dotenv import load_dotenv
+load_dotenv()
 from datetime import datetime
 
 os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = "rtsp_transport;tcp"
 
-RTSP_URL = "rtsp://admin:PASSWORDMU@192.168.1.xxx:554/tenda"
+RTSP_URL = os.environ.get("RTSP_URL", "")
+if not RTSP_URL:
+    raise SystemExit("RTSP_URL belum diisi di .env")
 OUTPUT_DIR = "rekaman_cctv"
 SEGMENT_MENIT = 5
 FPS_REKAM = 15

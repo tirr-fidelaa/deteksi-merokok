@@ -1,43 +1,90 @@
-{% extends "base.html" %}
-{% block title %}Riwayat{% endblock %}
-{% block heading %}Riwayat Kejadian{% endblock %}
-{% block content %}
-<div class="card mb-3"><div class="card-body">
-  <form method="get" class="row g-2 align-items-end">
-    <div class="col-md-3"><label class="form-label">Dari tanggal</label>
-      <input type="date" name="dari" value="{{ dari }}" class="form-control"></div>
-    <div class="col-md-3"><label class="form-label">Sampai tanggal</label>
-      <input type="date" name="sampai" value="{{ sampai }}" class="form-control"></div>
-    <div class="col-md-3"><label class="form-label">Kelas</label>
-      <select name="kelas" class="form-select">
-        <option value="">Semua</option>
-        {% for k in daftar_kelas %}<option value="{{ k }}" {% if k == kelas %}selected{% endif %}>{{ k }}</option>{% endfor %}
-      </select></div>
-    <div class="col-md-3 d-flex gap-2">
-      <button class="btn btn-primary" type="submit">Terapkan</button>
-      <a class="btn" href="{{ url_for('riwayat') }}">Reset</a>
-    </div>
-  </form>
-</div></div>
+{% extends "base.html" %} {% block title %}Riwayat{% endblock %} {% block
+heading %}Riwayat Kejadian{% endblock %} {% block content %}
+<div class="card mb-3">
+  <div class="card-body">
+    <form method="get" class="row g-2 align-items-end">
+      <div class="col-md-3">
+        <label class="form-label">Dari tanggal</label>
+        <input
+          type="date"
+          name="dari"
+          value="{{ dari }}"
+          class="form-control"
+        />
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Sampai tanggal</label>
+        <input
+          type="date"
+          name="sampai"
+          value="{{ sampai }}"
+          class="form-control"
+        />
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Kelas</label>
+        <select name="kelas" class="form-select">
+          <option value="">Semua</option>
+          {% for k in daftar_kelas %}
+          <option value="{{ k }}" {% if k == kelas %}selected{% endif %}>{{ k }}
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-md-3 d-flex gap-2">
+        <button class="btn btn-primary" type="submit">Terapkan</button>
+        <a class="btn" href="{{ url_for('riwayat') }}">Reset</a>
+      </div>
+    </form>
+  </div>
+</div>
 
 <div class="card">
-  <div class="card-header"><h3 class="card-title">{{ total }} kejadian</h3></div>
+  <div class="card-header">
+    <h3 class="card-title">{{ total }} kejadian</h3>
+  </div>
   <div class="table-responsive">
     <table class="table card-table table-vcenter">
-      <thead><tr><th>#</th><th>Snapshot</th><th>Waktu</th><th>Kelas</th><th>Confidence</th><th>Klip</th></tr></thead>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Snapshot</th>
+          <th>Waktu</th>
+          <th>Kelas</th>
+          <th>Confidence</th>
+          <th>Klip</th>
+        </tr>
+      </thead>
       <tbody>
-      {% for r in data %}
+        {% for r in data %}
         <tr>
           <td class="text-secondary">{{ r['id'] }}</td>
-          <td>{% if r['path_snapshot'] %}<a href="{{ r['path_snapshot']|snap_url }}" target="_blank"><img src="{{ r['path_snapshot']|snap_url }}" class="rounded" style="height:56px" alt=""></a>{% endif %}</td>
+          <td>
+            {% if r['path_snapshot'] %}<a
+              href="{{ r['path_snapshot']|snap_url }}"
+              target="_blank"
+              ><img
+                src="{{ r['path_snapshot']|snap_url }}"
+                class="thumb"
+                alt="" /></a
+            >{% endif %}
+          </td>
           <td>{{ r['waktu'] }}</td>
-          <td><span class="badge">{{ r['kelas'] }}</span></td>
+          <td>
+            <span class="badge-kelas badge-{{ r['kelas'] }}"
+              >{{ r['kelas'] }}</span
+            >
+          </td>
           <td>{{ '%.2f'|format(r['confidence']) }}</td>
           <td class="text-secondary">{{ 'Ada' if r['path_klip'] else '-' }}</td>
         </tr>
-      {% else %}
-        <tr><td colspan="6" class="text-secondary text-center py-4">Tidak ada data.</td></tr>
-      {% endfor %}
+        {% else %}
+        <tr>
+          <td colspan="6" class="text-secondary text-center py-4">
+            Tidak ada data.
+          </td>
+        </tr>
+        {% endfor %}
       </tbody>
     </table>
   </div>
@@ -46,9 +93,19 @@
     <p class="m-0 text-secondary">Halaman {{ page }} dari {{ pages }}</p>
     <ul class="pagination m-0 ms-auto">
       <li class="page-item {% if page <= 1 %}disabled{% endif %}">
-        <a class="page-link" href="{{ url_for('riwayat', page=page-1, dari=dari or None, sampai=sampai or None, kelas=kelas or None) }}">Sebelumnya</a></li>
+        <a
+          class="page-link"
+          href="{{ url_for('riwayat', page=page-1, dari=dari or None, sampai=sampai or None, kelas=kelas or None) }}"
+          >Sebelumnya</a
+        >
+      </li>
       <li class="page-item {% if page >= pages %}disabled{% endif %}">
-        <a class="page-link" href="{{ url_for('riwayat', page=page+1, dari=dari or None, sampai=sampai or None, kelas=kelas or None) }}">Berikutnya</a></li>
+        <a
+          class="page-link"
+          href="{{ url_for('riwayat', page=page+1, dari=dari or None, sampai=sampai or None, kelas=kelas or None) }}"
+          >Berikutnya</a
+        >
+      </li>
     </ul>
   </div>
   {% endif %}

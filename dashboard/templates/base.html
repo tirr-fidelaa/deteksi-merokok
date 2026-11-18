@@ -1,45 +1,63 @@
 <!doctype html>
 <html lang="id">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{% block title %}{% endblock %} - Deteksi Merokok</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0/dist/css/tabler.min.css">
-</head>
-<body>
-<div class="page">
-  <header class="navbar navbar-expand">
-    <div class="container-xl">
-      <span class="navbar-brand me-4">Deteksi Merokok</span>
-      <ul class="navbar-nav flex-row me-auto">
-        {% for ep, label in [('beranda','Beranda'),('riwayat','Riwayat'),('statistik','Statistik'),('pengaturan','Pengaturan')] %}
-        <li class="nav-item {% if request.endpoint == ep %}active{% endif %}">
-          <a class="nav-link" href="{{ url_for(ep) }}"><span class="nav-link-title">{{ label }}</span></a>
-        </li>
-        {% endfor %}
-      </ul>
-      <form method="post" action="{{ url_for('logout') }}" class="m-0">
-        <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
-        <button class="btn btn-sm" type="submit">Keluar</button>
-      </form>
-    </div>
-  </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{% endblock %} - Deteksi Merokok</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0/dist/css/tabler.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="container-xl topbar-inner">
+          <span class="brand">Deteksi Merokok</span>
+          <nav class="pill-nav">
+            {% for ep, label in
+            [('beranda','Beranda'),('riwayat','Riwayat'),('statistik','Statistik'),('pengaturan','Pengaturan')]
+            %}
+            <a
+              class="pill {% if request.endpoint == ep %}active{% endif %}"
+              href="{{ url_for(ep) }}"
+              >{{ label }}</a
+            >
+            {% endfor %}
+          </nav>
+          <form method="post" action="{{ url_for('logout') }}" class="m-0">
+            <input type="hidden" name="_csrf" value="{{ csrf_token() }}" />
+            <button class="btn-keluar" type="submit">Keluar</button>
+          </form>
+        </div>
+      </header>
 
-  <div class="page-wrapper">
-    <div class="page-header d-print-none">
-      <div class="container-xl"><h2 class="page-title">{% block heading %}{% endblock %}</h2></div>
-    </div>
-    <div class="page-body">
-      <div class="container-xl">
-        {% with msgs = get_flashed_messages(with_categories=true) %}
-          {% for cat, msg in msgs %}<div class="alert alert-{{ cat }}">{{ msg }}</div>{% endfor %}
-        {% endwith %}
-        {% block content %}{% endblock %}
+      <div class="page-wrapper">
+        <div class="page-header d-print-none">
+          <div class="container-xl">
+            <h2 class="page-title">{% block heading %}{% endblock %}</h2>
+          </div>
+        </div>
+        <div class="page-body">
+          <div class="container-xl">
+            {% with msgs = get_flashed_messages(with_categories=true) %} {% for
+            cat, msg in msgs %}
+            <div class="alert alert-{{ cat }}">{{ msg }}</div>
+            {% endfor %} {% endwith %} {% block content %}{% endblock %}
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0/dist/js/tabler.min.js"></script>
-{% block scripts %}{% endblock %}
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0/dist/js/tabler.min.js"></script>
+    {% block scripts %}{% endblock %}
+  </body>
 </html>

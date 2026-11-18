@@ -1,45 +1,71 @@
-{% extends "base.html" %}
-{% block title %}Statistik{% endblock %}
-{% block heading %}Statistik{% endblock %}
-{% block content %}
+{% extends "base.html" %} {% block title %}Statistik{% endblock %} {% block
+heading %}Statistik{% endblock %} {% block content %}
 <div class="row row-cards">
-  <div class="col-lg-8"><div class="card"><div class="card-body">
-    <h3 class="card-title">Kejadian per hari (14 hari terakhir)</h3>
-    <div style="height:260px"><canvas id="cHarian"></canvas></div>
-  </div></div></div>
-  <div class="col-lg-4"><div class="card">
-    <div class="card-header"><h3 class="card-title">Per kelas</h3></div>
-    <table class="table card-table">
-      <thead><tr><th>Kelas</th><th>Jumlah</th><th>Rata-rata conf.</th></tr></thead>
-      <tbody>
-      {% for k in per_kelas %}<tr><td>{{ k['kelas'] }}</td><td>{{ k['n'] }}</td><td>{{ k['rata'] }}</td></tr>
-      {% else %}<tr><td colspan="3" class="text-secondary">Belum ada data.</td></tr>{% endfor %}
-      </tbody>
-    </table>
-  </div></div>
-  <div class="col-12"><div class="card"><div class="card-body">
-    <h3 class="card-title">Kejadian per jam (semua data)</h3>
-    <div style="height:240px"><canvas id="cJam"></canvas></div>
-  </div></div></div>
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Kejadian per hari (14 hari terakhir)</h3>
+        <div class="chart-260"><canvas id="cHarian"></canvas></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-header"><h3 class="card-title">Per kelas</h3></div>
+      <table class="table card-table">
+        <thead>
+          <tr>
+            <th>Kelas</th>
+            <th>Jumlah</th>
+            <th>Rata-rata conf.</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for k in per_kelas %}
+          <tr>
+            <td>
+              <span class="badge-kelas badge-{{ k['kelas'] }}"
+                >{{ k['kelas'] }}</span
+              >
+            </td>
+            <td>{{ k['n'] }}</td>
+            <td>{{ k['rata'] }}</td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="3" class="text-secondary">Belum ada data.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Kejadian per jam (semua data)</h3>
+        <div class="chart-240"><canvas id="cJam"></canvas></div>
+      </div>
+    </div>
+  </div>
 </div>
-{% endblock %}
-{% block scripts %}
+{% endblock %} {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
 <script>
   const opsi = {
     responsive: true, maintainAspectRatio: false,
     plugins: { legend: { display: false } },
-    scales: { y: { beginAtZero: true, ticks: { precision: 0 } } }
+    scales: { y: { beginAtZero: true, ticks: { precision: 0 } }, x: { grid: { display: false } } }
   };
   new Chart(document.getElementById('cHarian'), {
     type: 'bar',
-    data: { labels: {{ label_hari|tojson }}, datasets: [{ data: {{ harian|tojson }}, backgroundColor: '#206bc4' }] },
+    data: { labels: {{ label_hari|tojson }}, datasets: [{ data: {{ harian|tojson }}, backgroundColor: '#f97316', borderRadius: 8 }] },
     options: opsi
   });
   new Chart(document.getElementById('cJam'), {
     type: 'bar',
     data: { labels: Array.from({length: 24}, (_, h) => String(h).padStart(2, '0')),
-            datasets: [{ data: {{ per_jam|tojson }}, backgroundColor: '#206bc4' }] },
+            datasets: [{ data: {{ per_jam|tojson }}, backgroundColor: '#fdba74', borderRadius: 6 }] },
     options: opsi
   });
 </script>

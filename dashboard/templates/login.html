@@ -1,35 +1,72 @@
 <!doctype html>
 <html lang="id">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Masuk - Deteksi Merokok</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0/dist/css/tabler.min.css">
-</head>
-<body class="d-flex flex-column">
-<div class="page page-center">
-  <div class="container container-tight py-4">
-    <div class="card card-md">
-      <div class="card-body">
-        <h2 class="h2 text-center mb-4">Masuk Admin</h2>
-        {% with msgs = get_flashed_messages(with_categories=true) %}
-          {% for cat, msg in msgs %}<div class="alert alert-{{ cat }}">{{ msg }}</div>{% endfor %}
-        {% endwith %}
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Masuk - Deteksi Merokok</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/core@1.0.0/dist/css/tabler.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="login-wrap">
+      <div class="card login-card">
+        <div class="login-logo">
+          <svg
+            width="28"
+            height="28"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+        </div>
+        <div class="login-title">Deteksi Merokok</div>
+        <div class="login-sub">Masuk sebagai admin</div>
+
+        {% with msgs = get_flashed_messages(with_categories=true) %} {% for cat,
+        msg in msgs %}
+        <div class="alert alert-{{ cat }}">{{ msg }}</div>
+        {% endfor %} {% endwith %}
+
         <form method="post" autocomplete="off">
-          <input type="hidden" name="_csrf" value="{{ csrf_token() }}">
+          <input type="hidden" name="_csrf" value="{{ csrf_token() }}" />
           <div class="mb-3">
             <label class="form-label">Username</label>
-            <input type="text" name="username" class="form-control" required autofocus>
+            <input
+              type="text"
+              name="username"
+              class="form-control"
+              required
+              autofocus
+            />
           </div>
           <div class="mb-3">
             <label class="form-label">Password</label>
-            <input type="password" name="password" class="form-control" required>
+            <input
+              type="password"
+              name="password"
+              class="form-control"
+              required
+            />
           </div>
           <button type="submit" class="btn btn-primary w-100">Masuk</button>
         </form>
       </div>
     </div>
-  </div>
-</div>
-</body>
+  </body>
 </html>

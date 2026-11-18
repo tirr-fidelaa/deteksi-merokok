@@ -1,42 +1,192 @@
-{% extends "base.html" %}
-{% block title %}Beranda{% endblock %}
-{% block heading %}Beranda{% endblock %}
-{% block content %}
-<div class="row row-deck row-cards mb-3">
-  <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body">
-    <div class="subheader">Total kejadian</div><div class="h1 mb-0">{{ total }}</div>
-  </div></div></div>
-  <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body">
-    <div class="subheader">Hari ini</div><div class="h1 mb-0">{{ n_hari_ini }}</div>
-  </div></div></div>
-  <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body">
-    <div class="subheader">7 hari terakhir</div><div class="h1 mb-0">{{ n_minggu }}</div>
-  </div></div></div>
-  <div class="col-sm-6 col-lg-3"><div class="card"><div class="card-body">
-    <div class="subheader">Kejadian terakhir</div>
-    <div class="h3 mb-0">{{ terakhir[0]['waktu'] if terakhir else 'Belum ada' }}</div>
-  </div></div></div>
+{% extends "base.html" %} {% block title %}Beranda{% endblock %} {% block
+heading %}Laporan Deteksi Merokok{% endblock %} {% block content %} {% set last
+= terbaru[0] if terbaru else none %}
+
+<div class="row row-cards mb-3">
+  <div class="col-lg-7">
+    <div class="card hero">
+      {% if last and last['path_snapshot'] %}
+      <a href="{{ last['path_snapshot']|snap_url }}" target="_blank">
+        <img
+          src="{{ last['path_snapshot']|snap_url }}"
+          alt="Snapshot kejadian terakhir"
+        />
+      </a>
+      <div class="hero-chip">
+        Kejadian terakhir
+        <span>· {{ last['kelas'] }} · {{ last['waktu'] }}</span>
+      </div>
+      {% else %}
+      <div class="hero-empty">Belum ada kejadian tercatat.</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="stat-grid">
+      <div class="card stat">
+        <div class="stat-icon">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="8" y1="6" x2="21" y2="6" />
+            <line x1="8" y1="12" x2="21" y2="12" />
+            <line x1="8" y1="18" x2="21" y2="18" />
+            <circle cx="4" cy="6" r="1" />
+            <circle cx="4" cy="12" r="1" />
+            <circle cx="4" cy="18" r="1" />
+          </svg>
+        </div>
+        <div class="stat-label">Total kejadian</div>
+        <div class="stat-value">{{ total }}</div>
+      </div>
+      <div class="card stat stat-accent">
+        <div class="stat-icon">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="3" y="4" width="18" height="18" rx="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+          </svg>
+        </div>
+        <div class="stat-label">Hari ini</div>
+        <div class="stat-value">{{ n_hari_ini }}</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-icon">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <line x1="18" y1="20" x2="18" y2="10" />
+            <line x1="12" y1="20" x2="12" y2="4" />
+            <line x1="6" y1="20" x2="6" y2="14" />
+          </svg>
+        </div>
+        <div class="stat-label">7 hari terakhir</div>
+        <div class="stat-value">{{ n_minggu }}</div>
+      </div>
+      <div class="card stat">
+        <div class="stat-icon">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+        </div>
+        <div class="stat-label">Kejadian terakhir</div>
+        <div class="stat-value-sm">
+          {{ terakhir[0]['waktu'] if terakhir else 'Belum ada' }}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="card">
-  <div class="card-header"><h3 class="card-title">Kejadian terbaru</h3></div>
-  <div class="table-responsive">
-    <table class="table card-table table-vcenter">
-      <thead><tr><th>Snapshot</th><th>Waktu</th><th>Kelas</th><th>Confidence</th></tr></thead>
-      <tbody>
+<div class="row row-cards">
+  <div class="col-lg-8">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Kejadian terbaru</h3>
+      </div>
       {% for r in terbaru %}
-        <tr>
-          <td>{% if r['path_snapshot'] %}<a href="{{ r['path_snapshot']|snap_url }}" target="_blank"><img src="{{ r['path_snapshot']|snap_url }}" class="rounded" style="height:48px" alt=""></a>{% endif %}</td>
-          <td>{{ r['waktu'] }}</td>
-          <td><span class="badge">{{ r['kelas'] }}</span></td>
-          <td>{{ '%.2f'|format(r['confidence']) }}</td>
-        </tr>
+      <div class="event-item">
+        <div class="event-icon">
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+            />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+        </div>
+        <div class="event-info">
+          <div class="event-title">Terdeteksi: {{ r['kelas'] }}</div>
+          <div class="event-sub">
+            {{ r['waktu'] }} · confidence {{ '%.2f'|format(r['confidence']) }}
+          </div>
+        </div>
+        <span class="badge-kelas badge-{{ r['kelas'] }}">{{ r['kelas'] }}</span>
+        {% if r['path_snapshot'] %}
+        <a href="{{ r['path_snapshot']|snap_url }}" target="_blank"
+          ><img
+            src="{{ r['path_snapshot']|snap_url }}"
+            class="event-thumb"
+            alt=""
+        /></a>
+        {% endif %}
+      </div>
       {% else %}
-        <tr><td colspan="4" class="text-secondary text-center py-4">Belum ada kejadian tercatat.</td></tr>
+      <div class="empty">Belum ada kejadian tercatat.</div>
       {% endfor %}
-      </tbody>
-    </table>
+      <div class="card-footer">
+        <a href="{{ url_for('riwayat') }}">Lihat semua riwayat</a>
+      </div>
+    </div>
   </div>
-  <div class="card-footer"><a href="{{ url_for('riwayat') }}">Lihat semua riwayat</a></div>
+
+  <div class="col-lg-4">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title">Kejadian 7 hari terakhir</h3>
+        <div class="chart-260"><canvas id="cMinggu"></canvas></div>
+      </div>
+    </div>
+  </div>
 </div>
+{% endblock %} {% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script>
+  new Chart(document.getElementById('cMinggu'), {
+    type: 'bar',
+    data: {
+      labels: {{ label_hari|tojson }},
+      datasets: [{ data: {{ harian|tojson }}, backgroundColor: '#f97316', borderRadius: 8 }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { display: false } },
+      scales: { y: { beginAtZero: true, ticks: { precision: 0 } }, x: { grid: { display: false } } }
+    }
+  });
+</script>
 {% endblock %}

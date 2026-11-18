@@ -8,3 +8,7 @@ runs_skripsi/
 outputs/
 __pycache__/
 *.pt
+rekaman_cctv/
+data/raw_videos/
+data/frames/
+*.mp4
